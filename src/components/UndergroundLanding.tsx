@@ -4,13 +4,13 @@ import {
   ChevronRight,
   Guitar,
   Headphones,
-  Instagram,
   Mic2,
   Music,
   Radio,
   Waves,
-  Youtube,
 } from "lucide-react";
+import AppStoreBadges from "@/components/AppStoreBadges";
+import SocialLinks from "@/components/SocialLinks";
 import TransmitTrackForm from "@/components/TransmitTrackForm";
 import {
   CATCHPHRASE_PRIMARY,
@@ -100,14 +100,6 @@ const STATION_BLOCKS = [
   },
 ] as const;
 
-function TikTokIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z" />
-    </svg>
-  );
-}
-
 function SectionHeading({
   kicker,
   icon,
@@ -163,23 +155,8 @@ export default function UndergroundLanding() {
             </span>
           </a>
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-4">
-            <div className="hidden items-center gap-1 sm:flex sm:gap-2">
-              {[
-                { href: "#", label: "TikTok", Icon: TikTokIcon },
-                { href: "#", label: "Instagram", Icon: Instagram },
-                { href: "#", label: "YouTube", Icon: Youtube },
-              ].map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="touch-target flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-400 transition-all duration-300 hover:scale-110 hover:border-fuchsia-500/60 hover:text-fuchsia-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]"
-                >
-                  <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
-                </a>
-              ))}
-            </div>
+          <div className="flex shrink-0 items-center gap-1 sm:gap-4">
+            <SocialLinks variant="nav" />
 
             <a
               href="#submit"
@@ -409,11 +386,23 @@ export default function UndergroundLanding() {
         <p className="catchphrase-secondary mb-3 text-[9px] sm:mb-4 sm:text-xs">
           {CATCHPHRASE_SECONDARY}
         </p>
+
+        <div className="mb-6 space-y-5">
+          <div>
+            <p className="section-kicker mb-3">Follow the Signal</p>
+            <SocialLinks variant="footer" />
+          </div>
+          <div>
+            <p className="section-kicker mb-3">Mobile Apps</p>
+            <AppStoreBadges />
+          </div>
+        </div>
+
         <p className="music-divider mb-4" aria-hidden="true">
           ♪ 937 THE UNDERGROUND ♫
         </p>
         <p className="font-[family-name:var(--font-display)] text-[10px] font-black uppercase tracking-[0.22em] text-zinc-400 sm:text-xs">
-          &copy; 2026 937 THE UNDERGROUND LLC &mdash; HANDCRAFTED IN DAYTON, OHIO. ALL
+          &copy; 2026 937 THE UNDERGROUND &mdash; HANDCRAFTED IN DAYTON, OHIO. ALL
           RIGHTS RESERVED.
         </p>
         <p className="mt-3 font-sans text-[10px] tracking-wide text-zinc-600">

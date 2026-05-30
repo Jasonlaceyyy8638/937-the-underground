@@ -618,7 +618,7 @@ export default function TransmitTrackForm() {
           </span>
           <span className="font-[family-name:var(--font-body)] text-sm leading-relaxed text-zinc-300">
             I certify that I own 100% of the rights to this music and grant{" "}
-            <strong className="text-fuchsia-300">937 The Underground LLC</strong>{" "}
+            <strong className="text-fuchsia-300">937 The Underground</strong>{" "}
             royalty-free permission to broadcast it.
           </span>
         </label>
