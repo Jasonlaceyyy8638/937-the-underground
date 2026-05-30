@@ -6,6 +6,13 @@ export const RADIO_CO_STREAM_SRC = "https://stream.radio.co/s80a395dbb";
 export const RADIO_CO_STREAM_URL = `${RADIO_CO_STREAM_SRC}/listen`;
 export const RADIO_CO_EMBED_SCRIPT =
   "https://embed.radio.co/player/bf30ab0.js";
+export const RADIO_CO_REQUEST_WIDGET_ID = "w03a08b6";
+export const RADIO_CO_REQUEST_EMBED_URL =
+  "https://embed.radio.co/request/w03a08b6.html";
+export const RADIO_CO_REQUEST_SCRIPT =
+  "https://embed.radio.co/request/w03a08b6.js";
+export const RADIO_CO_REQUEST_WIDTH = 650;
+export const RADIO_CO_REQUEST_HEIGHT = 350;
 export const RADIO_CO_STATUS_URL = `https://public.radio.co/stations/${RADIO_CO_STATION_ID}/status`;
 
 export type RadioCoStatus = {

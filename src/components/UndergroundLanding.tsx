@@ -13,6 +13,7 @@ import {
 import AppStoreBadges from "@/components/AppStoreBadges";
 import LiveBroadcastBanner from "@/components/LiveBroadcastBanner";
 import RadioCoEmbed from "@/components/RadioCoEmbed";
+import RadioCoRequestFab from "@/components/RadioCoRequestFab";
 import SocialLinks from "@/components/SocialLinks";
 import TransmitTrackForm from "@/components/TransmitTrackForm";
 import {
@@ -402,6 +403,7 @@ export default function UndergroundLanding() {
       </footer>
 
       <RadioCoEmbed />
+      <RadioCoRequestFab />
 
       {/* Mobile sticky submit bar */}
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-fuchsia-500/20 bg-black/90 px-4 py-3 backdrop-blur-xl safe-bottom safe-x sm:hidden">
