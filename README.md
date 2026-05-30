@@ -36,6 +36,8 @@ Large files never pass through the Netlify function. Flow:
    **> 20MB:** multipart — concurrent 20MB part `PUT`s, then `POST /api/upload/complete`
 3. Browser `POST` Formspree with the public R2 stream link
 
+Uploaded files are stored under **`{artist-slug}/{artist-slug}_{timestamp}.ext`** in R2 (e.g. `king-jb/king-jb_1780116681178.mp3`). The artist slug is derived from the **Artist / band name** field on the submit form. Enable **View prefixes as folders** in the R2 dashboard to browse by artist.
+
 **R2 CORS:** Apply `r2-cors.example.json` in the Cloudflare R2 bucket settings (include your production domain and `http://localhost:3000`).
 
 **Netlify env vars:** Set `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ENDPOINT`, `R2_BUCKET_NAME`, `R2_PUBLIC_BASE_URL`, and `NEXT_PUBLIC_FORMSPREE_URL` in the Netlify dashboard.

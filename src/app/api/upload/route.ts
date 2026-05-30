@@ -10,7 +10,13 @@ import {
   extensionFromFileName,
 } from "@/lib/allowed-upload-types";
 import { getPartCount } from "@/lib/multipart-upload";
-import { createR2Client, getR2Config, slugifyArtistName } from "@/lib/r2";
+import {
+  artistFolderFromKey,
+  buildR2PublicUrl,
+  buildStorageKey,
+  createR2Client,
+  getR2Config,
+} from "@/lib/r2";
 import {
   MAX_UPLOAD_BYTES,
   MAX_UPLOAD_LABEL,
@@ -19,14 +25,11 @@ import {
   MULTIPART_THRESHOLD_BYTES,
 } from "@/lib/upload-limits";
 
-const R2_PUBLIC_ORIGIN =
-  "https://pub-28f5fc81680246f78ddf847ba4484170.r2.dev";
+const PRESIGN_EXPIRES_SECONDS = 3600;
+const JSON_HEADERS = { "Content-Type": "application/json" } as const;
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const PRESIGN_EXPIRES_SECONDS = 3600;
-const JSON_HEADERS = { "Content-Type": "application/json" } as const;
 
 type PresignBody = {
   filename?: string;
@@ -42,19 +45,6 @@ function jsonError(message: string, status: number) {
 function sanitizeClientFilename(filename: string): string {
   const base = filename.split(/[/\\]/).pop() ?? filename;
   return base.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120);
-}
-
-function buildStorageKey(artistName: string, clientFilename: string): string {
-  const ext = extensionFromFileName(clientFilename);
-  if (!ext) {
-    throw new Error(`Only ${ALLOWED_FORMATS_LABEL} files are allowed.`);
-  }
-  const slug = slugifyArtistName(artistName);
-  return `${slug}_${Date.now()}${ext}`;
-}
-
-function buildPublicUrl(key: string): string {
-  return `${R2_PUBLIC_ORIGIN}/${key}`;
 }
 
 type PresignValidationError = { error: string; status: number };
@@ -166,7 +156,8 @@ export async function POST(request: NextRequest) {
     }
 
     const s3 = createR2Client(r2Config);
-    const publicUrl = buildPublicUrl(key);
+    const publicUrl = buildR2PublicUrl(key);
+    const artistFolder = artistFolderFromKey(key);
 
     if (fileSize <= MULTIPART_THRESHOLD_BYTES) {
       try {
@@ -184,6 +175,8 @@ export async function POST(request: NextRequest) {
           {
             mode: "single",
             uploadUrl,
+            key,
+            artistFolder,
             publicUrl,
           },
           { headers: JSON_HEADERS },
@@ -236,6 +229,7 @@ export async function POST(request: NextRequest) {
           mode: "multipart",
           uploadId,
           key,
+          artistFolder,
           partUrls,
           publicUrl,
           partCount,

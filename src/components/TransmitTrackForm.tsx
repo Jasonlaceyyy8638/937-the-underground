@@ -229,6 +229,7 @@ export default function TransmitTrackForm() {
         publicUrl?: string;
         uploadId?: string;
         key?: string;
+        artistFolder?: string;
         partUrls?: { partNumber: number; url: string }[];
         chunkSize?: number;
         error?: string;
@@ -241,6 +242,8 @@ export default function TransmitTrackForm() {
       }
 
       let publicUrl = cleanTrackUrl(presignData.publicUrl);
+      const storageKey = presignData.key ?? "";
+      const artistFolder = presignData.artistFolder ?? cleanArtistName;
 
       console.log("[937] Step A complete. mode:", presignData.mode, publicUrl);
 
@@ -339,6 +342,8 @@ export default function TransmitTrackForm() {
         artistName: cleanArtistName,
         email: cleanEmail,
         genre,
+        "Artist Folder": artistFolder,
+        "Storage Path": storageKey,
         "Listen Link": bracketUrl,
         "Track URL": bracketUrl,
         _replyto: cleanEmail,

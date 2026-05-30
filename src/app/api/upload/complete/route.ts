@@ -1,15 +1,12 @@
 import { CompleteMultipartUploadCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import type { CompletedPart } from "@/lib/multipart-upload";
-import { createR2Client, getR2Config } from "@/lib/r2";
+import { buildR2PublicUrl, createR2Client, getR2Config } from "@/lib/r2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const JSON_HEADERS = { "Content-Type": "application/json" } as const;
-
-const R2_PUBLIC_ORIGIN =
-  "https://pub-28f5fc81680246f78ddf847ba4484170.r2.dev";
 
 type CompleteBody = {
   uploadId?: string;
@@ -90,7 +87,7 @@ export async function POST(request: NextRequest) {
       return jsonError(message, 500);
     }
 
-    const publicUrl = `${R2_PUBLIC_ORIGIN}/${key}`;
+    const publicUrl = buildR2PublicUrl(key);
 
     return NextResponse.json(
       { ok: true, publicUrl },

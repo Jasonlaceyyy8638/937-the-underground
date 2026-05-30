@@ -1,4 +1,8 @@
 import { S3Client } from "@aws-sdk/client-s3";
+import {
+  ALLOWED_FORMATS_LABEL,
+  extensionFromFileName,
+} from "@/lib/allowed-upload-types";
 
 export type R2Config = {
   accessKeyId: string;
@@ -79,10 +83,34 @@ export function slugifyArtistName(name: string): string {
   return slug || "artist";
 }
 
+/**
+ * R2 object key: `{artist-slug}/{artist-slug}_{timestamp}{ext}`
+ * The artist slug comes from the "Artist / band name" form field.
+ * With "View prefixes as folders" enabled, each artist appears as its own folder.
+ */
+export function buildStorageKey(artistName: string, clientFilename: string): string {
+  const ext = extensionFromFileName(clientFilename);
+  if (!ext) {
+    throw new Error(`Only ${ALLOWED_FORMATS_LABEL} files are allowed.`);
+  }
+
+  const slug = slugifyArtistName(artistName);
+  return `${slug}/${slug}_${Date.now()}${ext}`;
+}
+
+export function artistFolderFromKey(key: string): string {
+  return key.split("/")[0] ?? "artist";
+}
+
 export const R2_PUBLIC_BASE =
   process.env.R2_PUBLIC_BASE_URL?.trim() ||
   "https://pub-28f5fc81680246f78ddf847ba4484170.r2.dev";
 
-export function buildR2PublicUrl(fileName: string): string {
-  return `${R2_PUBLIC_BASE.replace(/\/$/, "")}/${fileName}`;
+export function buildR2PublicUrl(key: string): string {
+  const encodedKey = key
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `${R2_PUBLIC_BASE.replace(/\/$/, "")}/${encodedKey}`;
 }
