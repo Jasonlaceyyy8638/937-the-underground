@@ -28,6 +28,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${syne.variable} ${plusJakarta.variable}`}>
-      <body className="font-[family-name:var(--font-body)] antialiased">{children}</body>
+      <body className="font-[family-name:var(--font-body)] antialiased safe-x">{children}</body>
     </html>
   );
 }

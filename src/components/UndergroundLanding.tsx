@@ -26,7 +26,7 @@ const BODY_COPY =
   "font-[family-name:var(--font-body)] font-medium leading-relaxed text-zinc-300";
 
 const SECTION_SUBHEAD =
-  "font-sans text-xs font-black uppercase tracking-[0.25em] text-zinc-300 sm:text-sm";
+  "section-subhead font-sans text-xs font-black uppercase tracking-[0.25em] text-zinc-300 sm:text-sm";
 
 const STATION_BLOCKS = [
   {
@@ -120,24 +120,24 @@ function SectionHeading({
   sub: string;
 }) {
   return (
-    <div className="relative mb-16 text-center">
+    <div className="relative mb-10 text-center sm:mb-16">
       <p className="section-kicker mb-3">
         <span className="music-glow">{icon}</span> {kicker}
       </p>
-      <h2 className="neon-heading font-[family-name:var(--font-display)] text-4xl font-black uppercase tracking-[0.04em] sm:text-5xl md:text-6xl lg:text-7xl">
+      <h2 className="neon-heading font-[family-name:var(--font-display)] text-3xl font-black uppercase tracking-[0.04em] sm:text-5xl md:text-6xl lg:text-7xl">
         <span className="hero-gradient-text">{title}</span>
       </h2>
-      <p className="music-divider mt-5" aria-hidden="true">
+      <p className="music-divider mt-4 sm:mt-5" aria-hidden="true">
         ♪ ♫ ♪
       </p>
-      <p className={`mt-4 ${SECTION_SUBHEAD}`}>{sub}</p>
+      <p className={`mt-3 px-1 sm:mt-4 sm:px-0 ${SECTION_SUBHEAD}`}>{sub}</p>
     </div>
   );
 }
 
 export default function UndergroundLanding() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black text-zinc-100">
+    <div className="relative min-h-screen overflow-x-hidden bg-black pb-20 text-zinc-100 sm:pb-0">
       {/* Ambient layers */}
       <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
         <div className="absolute -left-1/4 top-0 h-[700px] w-[700px] rounded-full bg-[radial-gradient(circle,rgba(236,72,153,0.18)_0%,transparent_65%)] blur-3xl" />
@@ -147,21 +147,24 @@ export default function UndergroundLanding() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,#000_85%)]" />
       </div>
 
-      <header className="fixed top-0 z-50 w-full">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 border-b border-fuchsia-500/20 bg-black/80 px-4 py-3 backdrop-blur-xl sm:px-6 lg:px-8">
+      <header className="fixed top-0 z-50 w-full safe-x">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 border-b border-fuchsia-500/20 bg-black/85 px-3 py-2.5 backdrop-blur-xl sm:gap-4 sm:px-6 sm:py-3 lg:px-8">
           <a
             href="#"
-            className="neon-logo group font-[family-name:var(--font-display)] text-xs font-black tracking-[0.28em] transition-all sm:text-sm"
+            className="neon-logo group min-w-0 font-[family-name:var(--font-display)] text-[10px] font-black leading-tight tracking-[0.18em] transition-all sm:text-sm sm:tracking-[0.28em]"
           >
-            <span className="music-glow note-bob mr-1.5 inline-block text-base">♪</span>
+            <span className="music-glow note-bob mr-1 inline-block text-sm sm:mr-1.5 sm:text-base">
+              ♪
+            </span>
             <span className="text-white">937 </span>
             <span className="bg-gradient-to-r from-pink-500 via-fuchsia-400 to-orange-400 bg-clip-text text-transparent group-hover:animate-glitch">
-              THE UNDERGROUND
+              <span className="sm:hidden">UNDERGROUND</span>
+              <span className="hidden sm:inline">THE UNDERGROUND</span>
             </span>
           </a>
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-4">
+            <div className="hidden items-center gap-1 sm:flex sm:gap-2">
               {[
                 { href: "#", label: "TikTok", Icon: TikTokIcon },
                 { href: "#", label: "Instagram", Icon: Instagram },
@@ -171,7 +174,7 @@ export default function UndergroundLanding() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-400 transition-all duration-300 hover:scale-110 hover:border-fuchsia-500/60 hover:text-fuchsia-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] sm:h-10 sm:w-10"
+                  className="touch-target flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-400 transition-all duration-300 hover:scale-110 hover:border-fuchsia-500/60 hover:text-fuchsia-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]"
                 >
                   <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
                 </a>
@@ -180,45 +183,52 @@ export default function UndergroundLanding() {
 
             <a
               href="#submit"
-              className="hidden rounded-lg border border-fuchsia-500/50 bg-fuchsia-600/20 px-4 py-2 text-xs font-black uppercase tracking-wider text-fuchsia-200 shadow-[0_0_25px_rgba(236,72,153,0.35)] transition-all duration-300 hover:scale-105 hover:bg-fuchsia-600/40 hover:shadow-[0_0_35px_rgba(236,72,153,0.55)] sm:inline-flex sm:items-center sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
+              className="touch-target inline-flex items-center gap-1.5 rounded-lg border border-fuchsia-500/50 bg-fuchsia-600/20 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-fuchsia-200 shadow-[0_0_25px_rgba(236,72,153,0.35)] transition-all duration-300 active:scale-95 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm sm:hover:scale-105 sm:hover:bg-fuchsia-600/40"
             >
-              <span className="music-glow">🎵</span> Submit Music
+              <span className="music-glow">🎵</span> Submit
             </a>
           </div>
         </nav>
       </header>
 
       <main className="relative z-10">
-        <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+        <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-4 pb-28 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
           <HeroWaveform />
-          <FloatingElements />
+          <div className="hidden sm:block">
+            <FloatingElements />
+          </div>
 
-          <div className="relative z-10 mx-auto max-w-6xl text-center">
-            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-fuchsia-500/40 bg-fuchsia-950/40 px-5 py-2 shadow-[0_0_30px_rgba(236,72,153,0.25)] backdrop-blur-md">
-              <span className="relative flex h-2.5 w-2.5">
+          <div className="relative z-10 mx-auto w-full max-w-6xl text-center">
+            <div className="mb-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-fuchsia-500/40 bg-fuchsia-950/40 px-3 py-2 shadow-[0_0_30px_rgba(236,72,153,0.25)] backdrop-blur-md sm:mb-8 sm:gap-3 sm:px-5">
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pink-500 opacity-75" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-pink-500" />
               </span>
-              <span className="music-glow text-sm">📻</span>
-              <EqualizerBadge />
-              <span className="font-[family-name:var(--font-display)] text-xs font-black uppercase tracking-[0.22em] text-fuchsia-200 sm:text-sm">
-                Now Broadcasting from the 937
+              <span className="music-glow shrink-0 text-sm">📻</span>
+              <span className="hidden sm:contents">
+                <EqualizerBadge />
               </span>
-              <EqualizerBadge />
-              <span className="music-glow note-bob-delayed text-sm">🎧</span>
+              <span className="font-[family-name:var(--font-display)] text-[10px] font-black uppercase leading-snug tracking-[0.14em] text-fuchsia-200 sm:text-sm sm:tracking-[0.22em]">
+                <span className="sm:hidden">Live · 937 Area</span>
+                <span className="hidden sm:inline">Now Broadcasting from the 937</span>
+              </span>
+              <span className="hidden sm:contents">
+                <EqualizerBadge />
+              </span>
+              <span className="music-glow note-bob-delayed hidden shrink-0 text-sm sm:inline">🎧</span>
             </div>
 
-            <p className="catchphrase-secondary mb-5 text-[10px] sm:text-xs">
+            <p className="catchphrase-secondary mb-4 px-1 text-[9px] sm:mb-5 sm:px-0 sm:text-xs">
               <span className="music-glow">♫</span> {CATCHPHRASE_SECONDARY}{" "}
               <span className="music-glow">♫</span>
             </p>
 
-            <div className="relative mb-6">
+            <div className="relative mb-5 sm:mb-6">
               <div
-                className="pointer-events-none absolute inset-0 -z-10 scale-[2] bg-[radial-gradient(ellipse_at_center,rgba(236,72,153,0.35)_0%,rgba(168,85,247,0.15)_40%,transparent_65%)]"
+                className="pointer-events-none absolute inset-0 -z-10 scale-[1.4] bg-[radial-gradient(ellipse_at_center,rgba(236,72,153,0.35)_0%,rgba(168,85,247,0.15)_40%,transparent_65%)] sm:scale-[2]"
                 aria-hidden="true"
               />
-              <h1 className="neon-heading font-[family-name:var(--font-display)] text-[2.75rem] font-black leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem]">
+              <h1 className="neon-heading font-[family-name:var(--font-display)] text-[2.1rem] font-black leading-[0.98] tracking-tight min-[380px]:text-[2.35rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem]">
                 <span className="block text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.15)]">
                   Dayton&apos;s New Home
                 </span>
@@ -226,40 +236,40 @@ export default function UndergroundLanding() {
                   For Independent Music.
                 </span>
               </h1>
-              <p className="catchphrase-primary mx-auto mt-5 max-w-2xl">
+              <p className="catchphrase-primary mx-auto mt-4 max-w-2xl px-2 sm:mt-5 sm:px-0">
                 {CATCHPHRASE_PRIMARY}
               </p>
             </div>
 
-            <p className={`mx-auto mb-12 max-w-2xl text-base sm:text-lg md:text-xl ${BODY_COPY}`}>
+            <p className={`mx-auto mb-10 max-w-2xl px-1 text-sm leading-relaxed sm:mb-12 sm:px-0 sm:text-lg md:text-xl ${BODY_COPY}`}>
               <span className="music-glow">🎚️</span>{" "}
               <span className="font-semibold text-zinc-100">No corporate play blocks.</span> 100%
-              raw, unsigned, local Rock, Country, and Hip-Hop. Streamed straight from the
-              underground to your dashboard. <span className="music-glow">🔊</span>
+              raw, unsigned, local Rock, Country, and Hip-Hop — streamed from the underground.{" "}
+              <span className="music-glow">🔊</span>
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-5">
               <a
                 href="#submit"
-                className="btn-voltage group relative flex w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-10 py-5 text-sm font-extrabold uppercase tracking-widest text-white sm:w-auto sm:text-base"
+                className="btn-voltage touch-target group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl px-6 py-4 text-xs font-extrabold uppercase tracking-widest text-white sm:max-w-sm sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:animate-shimmer" />
-                <Music className="relative h-5 w-5 transition-all duration-300 group-hover:-rotate-12 group-hover:scale-125 group-hover:text-pink-200" />
+                <Music className="relative h-5 w-5 shrink-0" />
                 <span className="relative">Artists: Drop Your Tracks</span>
-                <ChevronRight className="relative h-5 w-5 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
+                <ChevronRight className="relative hidden h-5 w-5 sm:block" />
               </a>
 
               <a
                 href="#vibe"
-                className="group relative flex w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl border-2 border-zinc-700/80 bg-zinc-950/60 px-10 py-5 text-sm font-extrabold uppercase tracking-widest text-zinc-100 backdrop-blur-md transition-all duration-300 hover:scale-[1.04] hover:border-fuchsia-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] sm:w-auto sm:text-base"
+                className="touch-target group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-zinc-700/80 bg-zinc-950/60 px-6 py-4 text-xs font-extrabold uppercase tracking-widest text-zinc-100 backdrop-blur-md transition-all duration-300 active:scale-[0.98] sm:max-w-sm sm:gap-3 sm:px-10 sm:py-5 sm:text-base sm:hover:scale-[1.04] sm:hover:border-fuchsia-500/50"
               >
-                <Headphones className="h-5 w-5 text-fuchsia-400 transition-all duration-300 group-hover:rotate-[360deg] group-hover:scale-125 group-hover:text-pink-400" />
+                <Headphones className="h-5 w-5 shrink-0 text-fuchsia-400" />
                 Listeners: Join the Hype
               </a>
             </div>
           </div>
 
-          <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2">
+          <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:bottom-10 sm:flex">
             <div className="flex items-end gap-1">
               {[0.3, 0.7, 1, 0.5, 0.85, 0.4].map((h, i) => (
                 <span
@@ -279,7 +289,7 @@ export default function UndergroundLanding() {
 
         <MarqueeStrip />
 
-        <section id="vibe" className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 lg:px-8">
+        <section id="vibe" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-28 lg:px-8">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
             <div className="absolute left-[8%] top-[18%] h-96 w-96 animate-pulse rounded-full bg-purple-600/10 blur-[120px]" />
             <div
@@ -300,7 +310,7 @@ export default function UndergroundLanding() {
             kicker="Tune In"
             icon="🎵"
             title="Station Blocks"
-            sub={`${CATCHPHRASE_SECONDARY} — four lanes, one underground frequency.`}
+            sub={`${CATCHPHRASE_SECONDARY} — four lanes, one frequency.`}
           />
 
           <div className="relative">
@@ -315,7 +325,7 @@ export default function UndergroundLanding() {
                 return (
                   <article
                     key={block.title}
-                    className={`group/card relative min-h-[220px] overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-950/40 p-6 backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03] ${block.borderHover} ${block.ringHover} ${
+                    className={`group/card relative min-h-[200px] overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-950/40 p-4 backdrop-blur-xl transition-all duration-500 ease-out sm:min-h-[220px] sm:p-6 sm:hover:-translate-y-1 sm:hover:scale-[1.03] ${block.borderHover} ${block.ringHover} ${
                       "wide" in block && block.wide
                         ? "sm:col-span-2 lg:col-span-3 lg:min-h-[200px]"
                         : ""
@@ -359,10 +369,10 @@ export default function UndergroundLanding() {
                         </div>
                         <span className="radio-tag shrink-0">{block.tag}</span>
                       </div>
-                      <h3 className="font-[family-name:var(--font-display)] text-2xl font-black uppercase tracking-[0.06em] text-white sm:text-3xl">
+                      <h3 className="font-[family-name:var(--font-display)] text-xl font-black uppercase tracking-[0.04em] text-white sm:text-2xl md:text-3xl">
                         {block.title}
                       </h3>
-                      <p className={`mt-3 max-w-md text-sm sm:text-base ${BODY_COPY}`}>
+                      <p className={`mt-2 max-w-md text-sm sm:mt-3 sm:text-base ${BODY_COPY}`}>
                         {block.description}
                       </p>
                     </div>
@@ -375,7 +385,7 @@ export default function UndergroundLanding() {
 
         <MarqueeStrip reverse />
 
-        <section id="submit" className="relative mx-auto max-w-2xl px-4 py-28 sm:px-6 lg:px-8">
+        <section id="submit" className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-28 lg:px-8">
           <div
             className="pointer-events-none absolute left-1/2 top-0 h-64 w-96 -translate-x-1/2 bg-[radial-gradient(circle,rgba(168,85,247,0.2)_0%,transparent_70%)]"
             aria-hidden="true"
@@ -385,18 +395,18 @@ export default function UndergroundLanding() {
             kicker="Go Live"
             icon="💿"
             title="Transmit Your Track"
-            sub={`${CATCHPHRASE_PRIMARY} Drop your track — we'll spin it from the console.`}
+            sub="Drop your track — we'll spin it from the console."
           />
 
           <TransmitTrackForm />
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-zinc-800/80 bg-zinc-950/60 px-4 py-14 text-center backdrop-blur-sm sm:px-6">
-        <p className="catchphrase-primary mx-auto mb-2 max-w-lg text-lg sm:text-xl">
+      <footer className="relative z-10 border-t border-zinc-800/80 bg-zinc-950/60 px-4 py-10 text-center backdrop-blur-sm safe-bottom sm:px-6 sm:py-14">
+        <p className="catchphrase-primary mx-auto mb-2 max-w-lg text-base sm:text-lg md:text-xl">
           {CATCHPHRASE_PRIMARY}
         </p>
-        <p className="catchphrase-secondary mb-4 text-[10px] sm:text-xs">
+        <p className="catchphrase-secondary mb-3 text-[9px] sm:mb-4 sm:text-xs">
           {CATCHPHRASE_SECONDARY}
         </p>
         <p className="music-divider mb-4" aria-hidden="true">
@@ -411,6 +421,17 @@ export default function UndergroundLanding() {
           <span className="music-glow">🎸</span>
         </p>
       </footer>
+
+      {/* Mobile sticky submit bar */}
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-fuchsia-500/20 bg-black/90 px-4 py-3 backdrop-blur-xl safe-bottom safe-x sm:hidden">
+        <a
+          href="#submit"
+          className="btn-voltage touch-target flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-black uppercase tracking-widest text-white"
+        >
+          <Music className="h-4 w-4" />
+          Drop Your Tracks
+        </a>
+      </div>
     </div>
   );
 }

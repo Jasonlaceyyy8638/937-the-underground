@@ -3,7 +3,7 @@
 export default function VinylWatermark({ color }: { color: string }) {
   return (
     <div
-      className={`vinyl-reveal pointer-events-none absolute -right-8 top-1/2 h-36 w-36 -translate-y-1/2 opacity-0 sm:h-44 sm:w-44 ${color}`}
+      className={`vinyl-reveal pointer-events-none absolute -right-4 top-1/2 h-28 w-28 -translate-y-1/2 opacity-0 sm:-right-8 sm:h-36 sm:w-36 md:h-44 md:w-44 ${color}`}
       aria-hidden="true"
     >
       <svg viewBox="0 0 100 100" className="h-full w-full drop-shadow-[0_0_30px_currentColor]">

@@ -356,3 +356,50 @@ body {
   color: rgb(192 132 252 / 0.85);
   text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
+
+/* ─── Mobile optimization ─── */
+
+.safe-x {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.touch-target {
+  min-height: 2.75rem;
+}
+
+@media (max-width: 639px) {
+  .catchphrase-secondary {
+    letter-spacing: 0.1em;
+    line-height: 1.55;
+  }
+
+  .catchphrase-primary {
+    font-size: clamp(0.95rem, 4.5vw, 1.25rem);
+    line-height: 1.35;
+  }
+
+  .section-kicker {
+    letter-spacing: 0.18em;
+    font-size: 0.575rem;
+  }
+
+  .section-subhead {
+    letter-spacing: 0.12em;
+    line-height: 1.65;
+  }
+
+  .music-divider {
+    letter-spacing: 0.25em;
+  }
+}
+
+@media (hover: none) {
+  .group\/card:hover {
+    transform: none;
+  }
+}

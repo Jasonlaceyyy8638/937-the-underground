@@ -48,19 +48,19 @@ const CONSOLE_GLOW_ALT =
   "pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-fuchsia-600/10 blur-[100px]";
 
 const CONSOLE_CARD =
-  "relative rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-8 shadow-[0_0_60px_rgba(168,85,247,0.12)] backdrop-blur-xl";
+  "relative rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-4 shadow-[0_0_60px_rgba(168,85,247,0.12)] backdrop-blur-xl sm:p-8";
 
 const CONSOLE_LABEL =
-  "mb-2 block font-sans text-xs font-black uppercase tracking-[0.2em] text-zinc-400";
+  "mb-2 block font-sans text-[11px] font-black uppercase tracking-[0.18em] text-zinc-400 sm:text-xs sm:tracking-[0.2em]";
 
 const LABEL_GLOW =
   "music-glow text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.5)]";
 
 const CONSOLE_FIELD =
-  "w-full rounded-xl border border-zinc-800/80 bg-black/60 px-4 py-3 font-[family-name:var(--font-body)] text-white placeholder:text-zinc-500 transition-all duration-300 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500/20 disabled:cursor-not-allowed disabled:opacity-50";
+  "touch-target w-full rounded-xl border border-zinc-800/80 bg-black/60 px-4 py-3.5 font-[family-name:var(--font-body)] text-base text-white placeholder:text-zinc-500 transition-all duration-300 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500/20 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-sm";
 
 const TRANSMIT_BTN =
-  "group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 px-8 py-5 text-sm font-extrabold uppercase tracking-widest text-white shadow-[0_0_30px_rgba(168,85,247,0.45)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_50px_rgba(236,72,153,0.55)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 disabled:hover:shadow-[0_0_30px_rgba(168,85,247,0.45)] sm:text-base";
+  "touch-target group relative flex min-h-[3rem] w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 px-6 py-4 text-xs font-extrabold uppercase tracking-widest text-white shadow-[0_0_30px_rgba(168,85,247,0.45)] transition-all duration-300 active:scale-[0.98] sm:gap-3 sm:px-8 sm:py-5 sm:text-sm sm:hover:scale-[1.02] sm:hover:shadow-[0_0_50px_rgba(236,72,153,0.55)] disabled:cursor-not-allowed disabled:opacity-60";
 
 function FieldLabel({
   htmlFor,
@@ -458,8 +458,8 @@ export default function TransmitTrackForm() {
           aria-hidden="true"
         />
 
-        <div className="mb-2 border-b border-zinc-800/50 pb-5">
-          <div className="flex items-center justify-between">
+        <div className="mb-2 border-b border-zinc-800/50 pb-4 sm:pb-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p className="section-kicker !mb-0">
               <span className={LABEL_GLOW}>🎚️</span> Studio Upload Console
             </p>
@@ -471,7 +471,7 @@ export default function TransmitTrackForm() {
               On Air
             </p>
           </div>
-          <p className="catchphrase-secondary mt-3 text-[9px] sm:text-[10px]">
+          <p className="catchphrase-secondary mt-2 hidden text-[9px] sm:block sm:text-[10px]">
             {CATCHPHRASE_SECONDARY}
           </p>
         </div>
@@ -546,7 +546,7 @@ export default function TransmitTrackForm() {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`group/drop relative mt-2 flex min-h-[176px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center transition-all duration-300 ${
+            className={`group/drop relative mt-2 flex min-h-[160px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-300 sm:min-h-[176px] sm:px-6 sm:py-8 ${
               isDragging
                 ? "dropzone-pulse border-pink-500 bg-fuchsia-500/10 shadow-[0_0_40px_rgba(236,72,153,0.35)]"
                 : audioFile
@@ -602,7 +602,7 @@ export default function TransmitTrackForm() {
           </label>
         </div>
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-zinc-800/80 bg-black/40 p-4 transition-colors duration-300 hover:border-zinc-700/80">
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-zinc-800/80 bg-black/40 p-3.5 transition-colors duration-300 sm:p-4 sm:hover:border-zinc-700/80">
           <input
             type="checkbox"
             name="legalChecked"
