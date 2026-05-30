@@ -1,5 +1,10 @@
 import UndergroundLanding from "@/components/UndergroundLanding";
+import RadioPlayerProvider from "@/components/RadioPlayerProvider";
 
 export default function Home() {
-  return <UndergroundLanding />;
+  return (
+    <RadioPlayerProvider>
+      <UndergroundLanding />
+    </RadioPlayerProvider>
+  );
 }

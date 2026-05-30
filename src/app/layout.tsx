@@ -21,6 +21,10 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "937 The Underground | Where Dayton Goes Off-Script",
   description: `${CATCHPHRASE_PRIMARY} ${CATCHPHRASE_SECONDARY} Raw, unsigned Rock, Country, and Hip-Hop streamed from Dayton's independent radio station.`,
+  icons: {
+    icon: "/logo-icon.svg",
+    apple: "/logo-icon.svg",
+  },
   openGraph: {
     title: "937 The Underground",
     description: `${CATCHPHRASE_PRIMARY} ${CATCHPHRASE_SECONDARY}`,

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   ChevronRight,
   Guitar,
@@ -10,13 +11,14 @@ import {
   Waves,
 } from "lucide-react";
 import AppStoreBadges from "@/components/AppStoreBadges";
+import LiveBroadcastBanner from "@/components/LiveBroadcastBanner";
+import RadioCoEmbed from "@/components/RadioCoEmbed";
 import SocialLinks from "@/components/SocialLinks";
 import TransmitTrackForm from "@/components/TransmitTrackForm";
 import {
   CATCHPHRASE_PRIMARY,
   CATCHPHRASE_SECONDARY,
 } from "@/lib/brand";
-import EqualizerBadge from "@/components/visuals/EqualizerBadge";
 import FloatingElements from "@/components/visuals/FloatingElements";
 import HeroWaveform from "@/components/visuals/HeroWaveform";
 import MarqueeStrip from "@/components/visuals/MarqueeStrip";
@@ -141,18 +143,23 @@ export default function UndergroundLanding() {
 
       <header className="fixed top-0 z-50 w-full safe-x">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 border-b border-fuchsia-500/20 bg-black/85 px-3 py-2.5 backdrop-blur-xl sm:gap-4 sm:px-6 sm:py-3 lg:px-8">
-          <a
-            href="#"
-            className="neon-logo group min-w-0 font-[family-name:var(--font-display)] text-[10px] font-black leading-tight tracking-[0.18em] transition-all sm:text-sm sm:tracking-[0.28em]"
-          >
-            <span className="music-glow note-bob mr-1 inline-block text-sm sm:mr-1.5 sm:text-base">
-              ♪
-            </span>
-            <span className="text-white">937 </span>
-            <span className="bg-gradient-to-r from-pink-500 via-fuchsia-400 to-orange-400 bg-clip-text text-transparent group-hover:animate-glitch">
-              <span className="sm:hidden">UNDERGROUND</span>
-              <span className="hidden sm:inline">THE UNDERGROUND</span>
-            </span>
+          <a href="#" className="group flex min-w-0 shrink items-center">
+            <Image
+              src="/logo.svg"
+              alt="937 The Underground"
+              width={360}
+              height={72}
+              priority
+              className="hidden h-8 w-auto sm:block sm:h-9"
+            />
+            <Image
+              src="/logo-icon.svg"
+              alt="937 The Underground"
+              width={512}
+              height={512}
+              priority
+              className="h-9 w-9 rounded-lg sm:hidden"
+            />
           </a>
 
           <div className="flex shrink-0 items-center gap-1 sm:gap-4">
@@ -176,24 +183,7 @@ export default function UndergroundLanding() {
           </div>
 
           <div className="relative z-10 mx-auto w-full max-w-6xl text-center">
-            <div className="mb-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-fuchsia-500/40 bg-fuchsia-950/40 px-3 py-2 shadow-[0_0_30px_rgba(236,72,153,0.25)] backdrop-blur-md sm:mb-8 sm:gap-3 sm:px-5">
-              <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pink-500 opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-pink-500" />
-              </span>
-              <span className="music-glow shrink-0 text-sm">📻</span>
-              <span className="hidden sm:contents">
-                <EqualizerBadge />
-              </span>
-              <span className="font-[family-name:var(--font-display)] text-[10px] font-black uppercase leading-snug tracking-[0.14em] text-fuchsia-200 sm:text-sm sm:tracking-[0.22em]">
-                <span className="sm:hidden">Live · 937 Area</span>
-                <span className="hidden sm:inline">Now Broadcasting from the 937</span>
-              </span>
-              <span className="hidden sm:contents">
-                <EqualizerBadge />
-              </span>
-              <span className="music-glow note-bob-delayed hidden shrink-0 text-sm sm:inline">🎧</span>
-            </div>
+            <LiveBroadcastBanner />
 
             <p className="catchphrase-secondary mb-4 px-1 text-[9px] sm:mb-5 sm:px-0 sm:text-xs">
               <span className="music-glow">♫</span> {CATCHPHRASE_SECONDARY}{" "}
@@ -410,6 +400,8 @@ export default function UndergroundLanding() {
           <span className="music-glow">🎸</span>
         </p>
       </footer>
+
+      <RadioCoEmbed />
 
       {/* Mobile sticky submit bar */}
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-fuchsia-500/20 bg-black/90 px-4 py-3 backdrop-blur-xl safe-bottom safe-x sm:hidden">
