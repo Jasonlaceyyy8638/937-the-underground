@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
   return (
     <LegalDocumentLayout title="Privacy Policy">
       <p className="font-[family-name:var(--font-body)] text-sm leading-relaxed text-zinc-400 sm:text-base">
-        {LEGAL_LAST_UPDATED}
+        Last Updated: {LEGAL_LAST_UPDATED}
       </p>
 
       <Section title="1. Introduction">

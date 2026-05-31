@@ -19,7 +19,9 @@ export default function LegalDocumentLayout({
           >
             ← 937 The Underground
           </Link>
-          <p className="font-sans text-xs text-zinc-500">{LEGAL_LAST_UPDATED}</p>
+          <p className="font-sans text-xs text-zinc-500">
+            Last Updated: {LEGAL_LAST_UPDATED}
+          </p>
         </div>
       </header>
 
