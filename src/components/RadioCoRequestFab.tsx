@@ -31,12 +31,16 @@ export default function RadioCoRequestFab() {
     };
   }, [open, close]);
 
+  useEffect(() => {
+    if (open) setIframeLoaded(false);
+  }, [open]);
+
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed z-50 flex h-[60px] max-w-[calc(100vw-2.5rem)] items-center gap-2.5 rounded-full bg-[#A855F7] pl-4 pr-5 text-white shadow-[0_4px_24px_rgba(168,85,247,0.55),0_0_48px_rgba(168,85,247,0.35)] transition-transform duration-200 active:scale-95 bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] right-[max(20px,env(safe-area-inset-right,0px))] sm:bottom-24 sm:right-5 sm:gap-3 sm:pl-5 sm:pr-6 sm:hover:scale-105 sm:hover:shadow-[0_6px_32px_rgba(168,85,247,0.65),0_0_64px_rgba(236,72,153,0.3)]"
+        className="fixed z-40 flex h-[60px] w-[calc(100%-2.5rem)] max-w-[400px] items-center justify-center gap-2.5 rounded-full bg-[#A855F7] px-5 text-white shadow-[0_4px_24px_rgba(168,85,247,0.55),0_0_48px_rgba(168,85,247,0.35)] transition-transform duration-200 active:scale-95 bottom-[calc(5.75rem+1rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 sm:bottom-24 sm:left-auto sm:right-5 sm:w-auto sm:max-w-none sm:translate-x-0 sm:justify-start sm:gap-3 sm:pl-5 sm:pr-6 sm:hover:scale-105 sm:hover:shadow-[0_6px_32px_rgba(168,85,247,0.65),0_0_64px_rgba(236,72,153,0.3)]"
         aria-label="Request a song"
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -49,7 +53,7 @@ export default function RadioCoRequestFab() {
 
       {open && (
         <div
-          className="fixed inset-0 z-[60] flex items-end justify-center p-4 safe-x sm:items-center"
+          className="fixed inset-0 z-[60] flex items-center justify-center px-[2.5%] safe-x sm:p-4"
           role="presentation"
           onClick={close}
         >
@@ -62,44 +66,42 @@ export default function RadioCoRequestFab() {
             role="dialog"
             aria-modal="true"
             aria-label="Music Request"
-            className="relative z-10 w-full max-w-[650px] overflow-hidden rounded-2xl border border-fuchsia-500/25 bg-[#09090B] shadow-[0_0_40px_rgba(168,85,247,0.35),0_24px_48px_rgba(0,0,0,0.6)]"
-            style={{ marginBottom: "max(0px, env(safe-area-inset-bottom, 0px))" }}
+            className="request-modal-scroll relative z-10 mx-auto flex max-h-[90dvh] w-[95%] max-w-[400px] flex-col overflow-y-auto overscroll-contain rounded-2xl border border-fuchsia-500/25 bg-[#09090B] shadow-[0_0_40px_rgba(168,85,247,0.35),0_24px_48px_rgba(0,0,0,0.6)] sm:max-h-[85vh] sm:w-full sm:max-w-[650px]"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-zinc-800/80 px-4 py-3">
+            <div className="flex shrink-0 items-center justify-between border-b border-zinc-800/80 p-5">
               <p className="font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-widest text-zinc-100">
                 Request a Song
               </p>
               <button
                 type="button"
                 onClick={close}
-                className="touch-target flex h-10 w-10 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-800/80 hover:text-white"
+                className="flex h-[45px] min-h-[45px] w-[45px] min-w-[45px] items-center justify-center rounded-xl border border-zinc-800/80 text-zinc-400 transition-colors active:scale-95 hover:bg-zinc-800/80 hover:text-white"
                 aria-label="Close request form"
               >
                 <X className="h-5 w-5" aria-hidden />
               </button>
             </div>
 
-            <div
-              className="relative w-full"
-              style={{ height: RADIO_CO_REQUEST_HEIGHT }}
-            >
-              {!iframeLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#A855F7] border-t-transparent" />
-                </div>
-              )}
-              <iframe
-                src={RADIO_CO_REQUEST_EMBED_URL}
-                title="937 The Underground — Music Request"
-                width="100%"
-                height={RADIO_CO_REQUEST_HEIGHT}
-                className={`block w-full border-0 transition-opacity duration-300 ${
-                  iframeLoaded ? "opacity-100" : "opacity-0"
-                }`}
-                style={{ maxWidth: RADIO_CO_REQUEST_WIDTH }}
-                onLoad={() => setIframeLoaded(true)}
-              />
+            <div className="shrink-0 p-5">
+              <div className="request-widget-frame relative w-full overflow-hidden rounded-xl border border-zinc-800/80 bg-black/40">
+                {!iframeLoaded && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#09090B]">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#A855F7] border-t-transparent" />
+                  </div>
+                )}
+                <iframe
+                  src={RADIO_CO_REQUEST_EMBED_URL}
+                  title="937 The Underground — Music Request"
+                  width="100%"
+                  height={RADIO_CO_REQUEST_HEIGHT}
+                  className={`block h-full w-full border-0 transition-opacity duration-300 ${
+                    iframeLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{ maxWidth: RADIO_CO_REQUEST_WIDTH }}
+                  onLoad={() => setIframeLoaded(true)}
+                />
+              </div>
             </div>
           </div>
         </div>

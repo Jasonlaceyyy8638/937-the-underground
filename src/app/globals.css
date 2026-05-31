@@ -157,6 +157,49 @@ body {
   animation: shimmer 3s linear infinite;
 }
 
+.request-modal-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.request-modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.request-modal-scroll::-webkit-scrollbar-track {
+  background: rgba(39, 39, 42, 0.45);
+  border-radius: 9999px;
+}
+
+.request-modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.55);
+  border-radius: 9999px;
+}
+
+.request-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.75);
+}
+
+.request-widget-frame {
+  height: 400px;
+}
+
+@media (min-width: 640px) {
+  .request-widget-frame {
+    height: 350px;
+  }
+}
+
+@keyframes legal-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-legal-shake {
+  animation: legal-shake 0.45s ease-in-out;
+}
+
 .custom-checkbox:checked + .checkbox-box {
   background: linear-gradient(135deg, #ec4899, #a855f7, #f97316);
   border-color: transparent;

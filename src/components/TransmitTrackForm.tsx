@@ -126,6 +126,8 @@ export default function TransmitTrackForm() {
   const [email, setEmail] = useState("");
   const [genre, setGenre] = useState("");
   const [legalChecked, setLegalChecked] = useState(false);
+  const [legalError, setLegalError] = useState(false);
+  const [legalShakeKey, setLegalShakeKey] = useState(0);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -197,9 +199,15 @@ export default function TransmitTrackForm() {
     });
 
     if (validationError) {
+      if (!legalChecked) {
+        setLegalError(true);
+        setLegalShakeKey((key) => key + 1);
+      }
       setErrorMessage(validationError);
       return;
     }
+
+    setLegalError(false);
 
     const selectedFile = audioFile!;
     const cleanArtistName = artistName.trim();
@@ -546,6 +554,11 @@ export default function TransmitTrackForm() {
           <span className={CONSOLE_LABEL}>
             <span className={LABEL_GLOW}>💿</span> TRACK / PROJECT UPLOAD
           </span>
+          <p className="mb-3 font-[family-name:var(--font-body)] text-xs leading-relaxed text-[#A1A1AA] sm:text-sm">
+            <span className="font-semibold">IMPORTANT:</span> Before uploading, ensure
+            your MP3 file has the Artist Name and Track Title embedded in its metadata.
+            Files without these tags will not show up in our automated Request system.
+          </p>
           <label
             htmlFor="audioFile"
             onDragOver={handleDragOver}
@@ -607,26 +620,54 @@ export default function TransmitTrackForm() {
           </label>
         </div>
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-zinc-800/80 bg-black/40 p-3.5 transition-colors duration-300 sm:p-4 sm:hover:border-zinc-700/80">
+        <label
+          key={legalShakeKey}
+          htmlFor="legalChecked"
+          className={`flex cursor-pointer items-start gap-3 rounded-xl border bg-black/40 p-3.5 transition-colors duration-300 sm:p-4 sm:hover:border-zinc-700/80 ${
+            legalError
+              ? "animate-legal-shake border-red-500/60 bg-red-950/20 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
+              : "border-zinc-800/80"
+          }`}
+        >
           <input
+            id="legalChecked"
             type="checkbox"
             name="legalChecked"
             checked={legalChecked}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setLegalChecked(e.target.checked)
-            }
+            required
+            aria-invalid={legalError}
+            aria-describedby={legalError ? "legal-error" : undefined}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setLegalChecked(e.target.checked);
+              if (e.target.checked) setLegalError(false);
+            }}
             disabled={isSubmitting}
             className="custom-checkbox sr-only"
           />
-          <span className="checkbox-box mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-zinc-700 bg-black/60 transition-all duration-300">
+          <span
+            className={`checkbox-box mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border bg-black/60 transition-all duration-300 ${
+              legalError ? "border-red-500" : "border-zinc-700"
+            }`}
+          >
             <Check className="h-3.5 w-3.5 text-white opacity-0 transition-all duration-200" />
           </span>
           <span className="font-[family-name:var(--font-body)] text-sm leading-relaxed text-zinc-300">
             I certify that I own 100% of the rights to this music and grant{" "}
             <strong className="text-fuchsia-300">937 The Underground</strong>{" "}
-            royalty-free permission to broadcast it.
+            royalty-free permission to broadcast it.{" "}
+            <span className="text-fuchsia-300/90">*</span>
           </span>
         </label>
+
+        {legalError && (
+          <p
+            id="legal-error"
+            role="alert"
+            className="-mt-4 font-[family-name:var(--font-body)] text-xs text-red-400"
+          >
+            You must accept the broadcast rights waiver before transmitting.
+          </p>
+        )}
 
         {errorMessage && (
           <p
