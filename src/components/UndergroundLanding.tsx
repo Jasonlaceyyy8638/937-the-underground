@@ -396,6 +396,18 @@ export default function UndergroundLanding() {
           &copy; 2026 937 THE UNDERGROUND &mdash; HANDCRAFTED IN DAYTON, OHIO. ALL
           RIGHTS RESERVED.
         </p>
+        <nav
+          className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] uppercase tracking-[0.18em] text-zinc-500"
+          aria-label="Legal"
+        >
+          <a href="/terms" className="transition-colors hover:text-fuchsia-300">
+            Terms of Service
+          </a>
+          <span aria-hidden="true">·</span>
+          <a href="/privacy" className="transition-colors hover:text-fuchsia-300">
+            Privacy Policy
+          </a>
+        </nav>
         <p className="mt-3 font-sans text-[10px] tracking-wide text-zinc-600">
           <span className="music-glow">🎧</span> Built in Dayton. Broadcast everywhere.{" "}
           <span className="music-glow">🎸</span>
