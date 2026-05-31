@@ -12,30 +12,9 @@ import {
 import {
   formatNowPlayingTitle,
   RADIO_CO_STATUS_URL,
-  RADIO_CO_STREAM_SRC,
+  RADIO_CO_STREAM_URL,
   type RadioCoStatus,
 } from "@/lib/radio-co";
-
-type RadioCoPlayerInstance = {
-  play: () => void;
-  pause: () => void;
-  playToggle: () => void;
-  isPlaying: () => boolean;
-  event: (name: string, cb: () => void) => void;
-};
-
-type JQueryWithRadioCo = {
-  (selector: string): {
-    radiocoPlayer: () => RadioCoPlayerInstance;
-    length: number;
-  };
-};
-
-declare global {
-  interface Window {
-    jQuery?: JQueryWithRadioCo;
-  }
-}
 
 type RadioPlayerContextValue = {
   isPlaying: boolean;
@@ -56,22 +35,6 @@ export function useRadioPlayer() {
   return ctx;
 }
 
-function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
-    document.body.appendChild(script);
-  });
-}
-
 async function fetchNowPlaying(): Promise<string | null> {
   try {
     const res = await fetch(RADIO_CO_STATUS_URL, { cache: "no-store" });
@@ -83,77 +46,62 @@ async function fetchNowPlaying(): Promise<string | null> {
   }
 }
 
+function playErrorMessage(error: unknown): string {
+  if (error instanceof DOMException) {
+    if (error.name === "NotAllowedError") {
+      return "Your browser blocked playback — tap play once more.";
+    }
+    if (error.name === "AbortError") {
+      return "Stream interrupted — tap play to reconnect.";
+    }
+  }
+
+  return "Could not start the stream — tap play to try again.";
+}
+
 export default function RadioPlayerProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const playerRef = useRef<RadioCoPlayerInstance | null>(null);
-  const fallbackAudioRef = useRef<HTMLAudioElement | null>(null);
-  const initRef = useRef(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const loadingTimeoutRef = useRef<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
-  const [useFallback, setUseFallback] = useState(false);
+
+  const clearLoadingTimeout = useCallback(() => {
+    if (loadingTimeoutRef.current !== null) {
+      window.clearTimeout(loadingTimeoutRef.current);
+      loadingTimeoutRef.current = null;
+    }
+  }, []);
+
+  const stopLoading = useCallback(() => {
+    clearLoadingTimeout();
+    setIsLoading(false);
+  }, [clearLoadingTimeout]);
+
+  const startLoadingWithTimeout = useCallback(() => {
+    clearLoadingTimeout();
+    setIsLoading(true);
+    loadingTimeoutRef.current = window.setTimeout(() => {
+      loadingTimeoutRef.current = null;
+      setIsLoading(false);
+      setError("Stream is taking too long — tap play to try again.");
+    }, 12000);
+  }, [clearLoadingTimeout]);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function initPlayer() {
-      if (initRef.current) return;
-      initRef.current = true;
-
-      try {
-        await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
-        await loadScript(
-          "https://public.radio.co/playerapi/jquery.radiocoplayer.min.js",
-        );
-
-        if (cancelled || !window.jQuery) {
-          throw new Error("jQuery did not load");
-        }
-
-        const $ = window.jQuery;
-        if (!$("#underground-radio").length) {
-          throw new Error("Player mount missing");
-        }
-
-        const player = $("#underground-radio").radiocoPlayer();
-        playerRef.current = player;
-
-        player.event("audioPlay", () => {
-          setIsPlaying(true);
-          setIsLoading(false);
-          setError(null);
-        });
-
-        player.event("audioPause", () => {
-          setIsPlaying(false);
-          setIsLoading(false);
-        });
-
-        if (!cancelled) {
-          setIsReady(true);
-          setError(null);
-        }
-      } catch {
-        if (!cancelled) {
-          setUseFallback(true);
-          setIsReady(true);
-        }
-      }
-    }
-
-    void initPlayer();
-
+    setIsReady(true);
+    const audio = audioRef.current;
     return () => {
-      cancelled = true;
-      playerRef.current?.pause();
-      playerRef.current = null;
+      clearLoadingTimeout();
+      audio?.pause();
     };
-  }, []);
+  }, [clearLoadingTimeout]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -174,52 +122,33 @@ export default function RadioPlayerProvider({
   }, [isPlaying]);
 
   const togglePlay = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
     setError(null);
 
-    if (useFallback) {
-      const audio = fallbackAudioRef.current;
-      if (!audio) return;
+    if (!audio.paused) {
+      audio.pause();
+      stopLoading();
+      return;
+    }
 
-      if (!audio.paused) {
-        audio.pause();
+    startLoadingWithTimeout();
+
+    const playPromise = audio.play();
+    if (!playPromise) return;
+
+    playPromise
+      .then(() => {
+        stopLoading();
+        setIsPlaying(true);
+      })
+      .catch((playError: unknown) => {
+        stopLoading();
         setIsPlaying(false);
-        return;
-      }
-
-      setIsLoading(true);
-      if (!audio.src) {
-        audio.src = `${RADIO_CO_STREAM_SRC}/listen`;
-      }
-
-      const playPromise = audio.play();
-      if (playPromise) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            setIsLoading(false);
-          })
-          .catch(() => {
-            setIsLoading(false);
-            setError("Tap play again — your browser blocked audio.");
-          });
-      }
-      return;
-    }
-
-    const player = playerRef.current;
-    if (!player) {
-      setError("Player is still loading…");
-      return;
-    }
-
-    setIsLoading(true);
-    player.playToggle();
-
-    window.setTimeout(() => {
-      setIsLoading(false);
-      setIsPlaying(player.isPlaying());
-    }, 400);
-  }, [useFallback]);
+        setError(playErrorMessage(playError));
+      });
+  }, [startLoadingWithTimeout, stopLoading]);
 
   return (
     <RadioPlayerContext.Provider
@@ -232,38 +161,35 @@ export default function RadioPlayerProvider({
         togglePlay,
       }}
     >
-      <div
-        id="underground-radio"
-        className="radioplayer sr-only"
-        data-src={RADIO_CO_STREAM_SRC}
-        data-autoplay="false"
-        data-playbutton="true"
-        data-volumeslider="false"
-        data-elapsedtime="false"
-        data-nowplaying="false"
-        data-showplayer="false"
-        data-showartwork="false"
-        data-volume="75"
+      <audio
+        ref={audioRef}
+        src={RADIO_CO_STREAM_URL}
+        preload="none"
+        playsInline
+        className="sr-only"
         aria-hidden="true"
+        onPlay={() => {
+          stopLoading();
+          setIsPlaying(true);
+          setError(null);
+        }}
+        onPause={() => {
+          stopLoading();
+          setIsPlaying(false);
+        }}
+        onWaiting={() => {
+          if (!audioRef.current?.paused) {
+            setIsLoading(true);
+          }
+        }}
+        onPlaying={stopLoading}
+        onCanPlay={stopLoading}
+        onError={() => {
+          stopLoading();
+          setIsPlaying(false);
+          setError("Could not connect to the live stream.");
+        }}
       />
-      {useFallback ? (
-        <audio
-          ref={fallbackAudioRef}
-          preload="none"
-          className="sr-only"
-          aria-hidden="true"
-          onPlay={() => {
-            setIsPlaying(true);
-            setIsLoading(false);
-          }}
-          onPause={() => setIsPlaying(false)}
-          onError={() => {
-            setIsLoading(false);
-            setIsPlaying(false);
-            setError("Could not connect to the live stream.");
-          }}
-        />
-      ) : null}
       {children}
     </RadioPlayerContext.Provider>
   );

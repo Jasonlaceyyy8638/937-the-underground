@@ -20,7 +20,7 @@ export default function LiveBroadcastBanner() {
           ? "Pause 937 The Underground live stream"
           : "Play 937 The Underground live stream"
       }
-      className={`group inline-flex max-w-full cursor-pointer flex-wrap items-center justify-center gap-2 rounded-full border px-3 py-2 shadow-[0_0_30px_rgba(236,72,153,0.25)] backdrop-blur-md transition-all duration-300 active:scale-[0.98] disabled:cursor-wait disabled:opacity-70 sm:gap-3 sm:px-5 ${
+      className={`group inline-flex max-w-full cursor-pointer flex-wrap items-center justify-center gap-2 rounded-full border px-3 py-2 shadow-[0_0_30px_rgba(236,72,153,0.25)] backdrop-blur-md transition-all duration-300 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 sm:gap-3 sm:px-5 ${
         isPlaying
           ? "border-pink-400/70 bg-pink-950/50 shadow-[0_0_40px_rgba(236,72,153,0.45)] ring-2 ring-pink-500/40"
           : "border-fuchsia-500/40 bg-fuchsia-950/40 hover:border-fuchsia-400/60 hover:shadow-[0_0_40px_rgba(236,72,153,0.35)]"

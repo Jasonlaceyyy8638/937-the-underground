@@ -61,7 +61,10 @@ export default function SocialLinks({
               className={styles.link}
               {...(href === "#"
                 ? { "aria-disabled": true, onClick: (e) => e.preventDefault() }
-                : {})}
+                : {
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
             >
               <Icon className={styles.icon} />
             </a>

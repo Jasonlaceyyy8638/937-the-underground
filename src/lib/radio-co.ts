@@ -31,9 +31,21 @@ function slugToDisplayName(slug: string): string {
     .join(" ");
 }
 
+const SLUG_TIMESTAMP = /([a-z0-9]+(?:-[a-z0-9]+)*)_\d+/i;
+const AUDIO_EXTENSION = /\.(mp3|wav|flac|zip|rar)$/i;
+
+function isRawUploadName(value: string): boolean {
+  const trimmed = value.trim();
+  return (
+    SLUG_TIMESTAMP.test(trimmed) ||
+    AUDIO_EXTENSION.test(trimmed) ||
+    /^[\d_\-().\s]+$/.test(trimmed)
+  );
+}
+
 /**
  * Radio.co often reports uploaded file names (e.g. king-jb_1780116681178.mp3)
- * instead of a polished song title. Convert those to a readable label, or hide them.
+ * or "Artist - king-jb_1780116681178" instead of a polished song title.
  */
 export function formatNowPlayingTitle(
   raw: string | null | undefined,
@@ -46,12 +58,39 @@ export function formatNowPlayingTitle(
     return null;
   }
 
+  const dashParts = title.split(/\s*[-–—]\s*/);
+  if (dashParts.length >= 2) {
+    const displayTitle = dashParts[0].trim();
+    const trailing = dashParts.slice(1).join(" - ").trim();
+
+    if (
+      displayTitle &&
+      isRawUploadName(trailing) &&
+      !isRawUploadName(displayTitle)
+    ) {
+      return displayTitle;
+    }
+  }
+
+  const embeddedSuffix = title.match(
+    /\s*[-–—]?\s*([a-z0-9]+(?:-[a-z0-9]+)*)_\d+(?:\.[a-z0-9]+)?\s*$/i,
+  );
+  if (embeddedSuffix?.index !== undefined && embeddedSuffix.index > 0) {
+    const cleaned = title
+      .slice(0, embeddedSuffix.index)
+      .trim()
+      .replace(/\s*[-–—]\s*$/, "");
+    if (cleaned && !isRawUploadName(cleaned)) {
+      return cleaned;
+    }
+  }
+
   const slugTimestamp = title.match(/^([a-z0-9]+(?:-[a-z0-9]+)*)_\d+/i);
   if (slugTimestamp) {
     return slugToDisplayName(slugTimestamp[1]);
   }
 
-  if (/\.(mp3|wav|flac|zip|rar)$/i.test(title)) {
+  if (AUDIO_EXTENSION.test(title)) {
     const base = title.replace(/\.[^.]+$/, "");
     const fromFile = base.match(/^([a-z0-9]+(?:-[a-z0-9]+)*)_\d+/i);
     if (fromFile) return slugToDisplayName(fromFile[1]);
