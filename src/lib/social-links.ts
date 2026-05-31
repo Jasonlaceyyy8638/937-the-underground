@@ -14,7 +14,7 @@ export type SocialLink = {
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { id: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@937theunderground" },
-  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/937theunderground" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/theunderground937" },
   { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@937TheUnderground" },
   { id: "x", label: "X (formerly Twitter)", href: "https://x.com/937underground" },
   {
