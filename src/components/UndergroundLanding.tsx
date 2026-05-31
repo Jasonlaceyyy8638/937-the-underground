@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import AppStoreBadges from "@/components/AppStoreBadges";
 import LiveBroadcastBanner from "@/components/LiveBroadcastBanner";
-import RadioCoEmbed from "@/components/RadioCoEmbed";
 import RadioCoRequestFab from "@/components/RadioCoRequestFab";
 import SocialLinks from "@/components/SocialLinks";
 import TransmitTrackForm from "@/components/TransmitTrackForm";
@@ -414,7 +413,6 @@ export default function UndergroundLanding() {
         </p>
       </footer>
 
-      <RadioCoEmbed />
       <RadioCoRequestFab />
 
       {/* Mobile sticky submit bar */}
