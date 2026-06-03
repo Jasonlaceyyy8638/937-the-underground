@@ -14,8 +14,6 @@
     </linearGradient>
   </defs>
 
-  <rect width="512" height="512" rx="108" fill="#0a0a0a"/>
-
   <!-- Subtle console frame -->
   <g stroke="url(#accent)" stroke-width="2.5" fill="none" opacity="0.35">
     <path d="M 88 120 V 392 H 120"/>

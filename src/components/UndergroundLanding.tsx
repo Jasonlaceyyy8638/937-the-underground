@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   ChevronRight,
   Guitar,
@@ -12,7 +11,6 @@ import {
 } from "lucide-react";
 import AppStoreBadges from "@/components/AppStoreBadges";
 import LiveBroadcastBanner from "@/components/LiveBroadcastBanner";
-import RadioCoRequestFab from "@/components/RadioCoRequestFab";
 import SocialLinks from "@/components/SocialLinks";
 import TransmitTrackForm from "@/components/TransmitTrackForm";
 import {
@@ -141,50 +139,50 @@ export default function UndergroundLanding() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,#000_85%)]" />
       </div>
 
-      <header className="fixed top-0 z-50 w-full safe-x">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 border-b border-fuchsia-500/20 bg-black/85 px-3 py-2.5 backdrop-blur-xl sm:gap-4 sm:px-6 sm:py-3 lg:px-8">
-          <a href="#" className="group flex min-w-0 shrink items-center">
-            <Image
-              src="/logo.svg"
-              alt="937 The Underground"
-              width={360}
-              height={72}
-              priority
-              className="hidden h-8 w-auto sm:block sm:h-9"
-            />
-            <Image
-              src="/logo-icon.svg"
-              alt="937 The Underground"
-              width={512}
-              height={512}
-              priority
-              className="h-9 w-9 rounded-lg sm:hidden"
-            />
-          </a>
-
-          <div className="flex shrink-0 items-center gap-1 sm:gap-4">
-            <SocialLinks variant="nav" />
-
-            <a
-              href="#submit"
-              className="touch-target inline-flex items-center gap-1.5 rounded-lg border border-fuchsia-500/50 bg-fuchsia-600/20 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-fuchsia-200 shadow-[0_0_25px_rgba(236,72,153,0.35)] transition-all duration-300 active:scale-95 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm sm:hover:scale-105 sm:hover:bg-fuchsia-600/40"
-            >
-              <span className="music-glow">🎵</span> Submit
+      <div className="site-top-bar fixed top-0 left-0 right-0 z-50 w-full border-b border-fuchsia-500/20 safe-x">
+        <header>
+          <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6 sm:py-3 lg:px-8">
+            <a href="#" className="group flex min-w-0 shrink items-center">
+              <img
+                src="/logo.svg"
+                alt="937 The Underground"
+                width={360}
+                height={72}
+                fetchPriority="high"
+                decoding="async"
+                className="block h-8 w-auto max-w-[9.5rem] sm:h-9 sm:max-w-none"
+              />
             </a>
-          </div>
-        </nav>
-      </header>
 
-      <main className="relative z-10">
-        <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-4 pb-28 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-4">
+              <SocialLinks variant="nav" />
+
+              <a
+                href="#submit"
+                className="touch-target inline-flex items-center gap-1.5 rounded-lg border border-fuchsia-500/50 bg-fuchsia-600/20 px-3 py-2 text-[10px] font-black uppercase tracking-wider text-fuchsia-200 shadow-[0_0_25px_rgba(236,72,153,0.35)] transition-all duration-300 active:scale-95 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm sm:hover:scale-105 sm:hover:bg-fuchsia-600/40"
+              >
+                <span className="music-glow">🎵</span> Submit
+              </a>
+            </div>
+          </nav>
+        </header>
+
+        <div
+          className="border-t border-fuchsia-500/10 px-3 py-2 sm:px-6 sm:py-2.5"
+          aria-label="Live broadcast controls"
+        >
+          <LiveBroadcastBanner variant="sticky" />
+        </div>
+      </div>
+
+      <main className="relative z-10 pt-[var(--site-top-bar-height)] sm:pt-[var(--site-top-bar-height-sm)]">
+        <section className="relative flex min-h-[calc(100dvh-var(--site-top-bar-height))] flex-col items-center justify-center overflow-x-hidden px-4 pb-24 sm:min-h-[calc(100dvh-var(--site-top-bar-height-sm))] sm:px-6 sm:pb-20 lg:px-8">
           <HeroWaveform />
           <div className="hidden sm:block">
             <FloatingElements />
           </div>
 
           <div className="relative z-10 mx-auto w-full max-w-6xl text-center">
-            <LiveBroadcastBanner />
-
             <p className="catchphrase-secondary mb-4 px-1 text-[9px] sm:mb-5 sm:px-0 sm:text-xs">
               <span className="music-glow">♫</span> {CATCHPHRASE_SECONDARY}{" "}
               <span className="music-glow">♫</span>
@@ -215,7 +213,7 @@ export default function UndergroundLanding() {
               <span className="music-glow">🔊</span>
             </p>
 
-            <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <div className="mx-auto flex w-full max-w-md flex-col items-stretch justify-center gap-4 sm:max-w-none sm:flex-row sm:items-center sm:gap-5">
               <a
                 href="#submit"
                 className="btn-voltage touch-target group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl px-6 py-4 text-xs font-extrabold uppercase tracking-widest text-white sm:max-w-sm sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
@@ -369,7 +367,7 @@ export default function UndergroundLanding() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-zinc-800/80 bg-zinc-950/60 px-4 py-10 text-center backdrop-blur-sm safe-bottom sm:px-6 sm:py-14">
+      <footer className="relative z-10 border-t border-zinc-800/80 bg-zinc-950/60 px-4 py-12 text-center backdrop-blur-sm safe-bottom sm:px-6 sm:py-14">
         <p className="catchphrase-primary mx-auto mb-2 max-w-lg text-base sm:text-lg md:text-xl">
           {CATCHPHRASE_PRIMARY}
         </p>
@@ -413,10 +411,8 @@ export default function UndergroundLanding() {
         </p>
       </footer>
 
-      <RadioCoRequestFab />
-
       {/* Mobile sticky submit bar */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-fuchsia-500/20 bg-black/90 px-4 py-3 backdrop-blur-xl safe-bottom safe-x sm:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-fuchsia-500/20 bg-black/90 px-4 py-4 backdrop-blur-xl safe-bottom safe-x sm:hidden">
         <a
           href="#submit"
           className="btn-voltage touch-target flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-black uppercase tracking-widest text-white"

@@ -21,11 +21,49 @@
 
 html {
   scroll-behavior: smooth;
+  --site-top-bar-height: 8.25rem;
+  --site-top-bar-height-sm: 8.75rem;
+  scroll-padding-top: var(--site-top-bar-height);
+}
+
+@media (min-width: 640px) {
+  html {
+    scroll-padding-top: var(--site-top-bar-height-sm);
+  }
 }
 
 body {
   background: #000;
   color: #fafafa;
+}
+
+/* Unified fixed header + broadcast strip */
+.site-top-bar {
+  background-color: #000;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
+}
+
+/* Sticky broadcast strip — sits below nav inside the top stack */
+.broadcast-strip {
+  min-height: 3.25rem;
+}
+
+@media (min-width: 640px) {
+  .broadcast-strip {
+    min-height: 3.5rem;
+  }
+}
+
+.broadcast-strip--with-now-playing {
+  min-height: 4.75rem;
+}
+
+@media (min-width: 640px) {
+  .broadcast-strip--with-now-playing {
+    min-height: 5rem;
+  }
 }
 
 /* ─── Keyframes ─── */
